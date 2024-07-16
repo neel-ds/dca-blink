@@ -34,16 +34,16 @@ export const GET = async (req: Request) => {
       links: {
         actions: [
           {
-            label: "DCA 6 USDC",
-            href: `${baseHref}&amount={6}`,
+            label: "DCA 10 USDC",
+            href: `${baseHref}&amount=${"10"}`,
           },
           {
-            label: "DCA 15 USDC",
-            href: `${baseHref}&amount={15}`,
+            label: "DCA 25 USDC",
+            href: `${baseHref}&amount=${"15"}`,
           },
           {
             label: "DCA 50 USDC",
-            href: `${baseHref}&amount={50}`,
+            href: `${baseHref}&amount=${"50"}`,
           },
           {
             label: "DCA USDC",
@@ -127,7 +127,7 @@ export const POST = async (req: Request) => {
     const payload: ActionPostResponse = await createPostResponse({
       fields: {
         transaction,
-        message: `DCA ${amount} SOL with ${toPubkey.toBase58()}`,
+        message: `DCA placed ${amount} USDC to for SOL`,
       },
     });
 
