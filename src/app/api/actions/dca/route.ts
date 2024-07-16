@@ -7,7 +7,6 @@ import {
 } from "@solana/actions";
 import {
   Connection,
-  LAMPORTS_PER_SOL,
   PublicKey,
   Transaction,
 } from "@solana/web3.js";
@@ -26,22 +25,25 @@ export const GET = async (req: Request) => {
 
     const payload: ActionGetResponse = {
       title: "DCA - SOL",
-      icon: new URL("https://i.postimg.cc/NfwX2L9Q/dca-blink.png", requestUrl.origin).toString(),
+      icon: new URL(
+        "https://i.postimg.cc/NfwX2L9Q/dca-blink.png",
+        requestUrl.origin
+      ).toString(),
       description: "DCA SOL at your finger tips",
       label: "Order",
       links: {
         actions: [
           {
             label: "DCA 6 USDC",
-            href: `${baseHref}?amount={6}`,
+            href: `${baseHref}&amount={6}`,
           },
           {
             label: "DCA 15 USDC",
-            href: `${baseHref}?amount={15}`,
+            href: `${baseHref}&amount={15}`,
           },
           {
             label: "DCA 50 USDC",
-            href: `${baseHref}?amount={50}`,
+            href: `${baseHref}&amount={50}`,
           },
           {
             label: "DCA USDC",
@@ -92,29 +94,21 @@ export const POST = async (req: Request) => {
       });
     }
 
-    const connection = new Connection("https://api.mainnet-beta.solana.com");
-
-    // ensure the receiving account will be rent exempt
-    const minimumBalance = await connection.getMinimumBalanceForRentExemption(
-      0 // note: simple accounts that just store native SOL have `0` bytes of data
-    );
-    if (amount * LAMPORTS_PER_SOL < minimumBalance) {
-      throw `account may not be rent exempt: ${toPubkey.toBase58()}`;
-    }
+    const connection = new Connection("https://mainnet.helius-rpc.com/?api-key=6ec5a1dd-a6ff-45bf-bea9-1dd627a19b0e");
 
     const transaction = new Transaction();
 
     const dca = new DCA(connection, Network.MAINNET);
 
     const params: CreateDCAParamsV2 = {
-      payer: toPubkey, 
-      user: toPubkey,
-      inAmount: BigInt(amount), 
-      inAmountPerCycle: BigInt(amount),
+      payer: account,
+      user: account,
+      inAmount: BigInt(amount),
+      inAmountPerCycle: BigInt(amount/2),
       cycleSecondsApart: BigInt(86400), // 1 day between each order -> 60 * 60 * 24
       inputMint: USDC,
       outputMint: BONK,
-      minOutAmountPerCycle: null, 
+      minOutAmountPerCycle: null,
       maxOutAmountPerCycle: null,
       startAt: null,
     };
