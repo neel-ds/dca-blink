@@ -1,6 +1,6 @@
 import { PublicKey } from "@solana/web3.js";
 
-export const DEFAULT_SOL_ADDRESS: PublicKey = new PublicKey(
+export const DEFAULT_ADDRESS: PublicKey = new PublicKey(
   "DmSJm2P2KSRx5MrqU9ukqBGhopNiJRW3VSRV8Bmqagbp"
 );
 
@@ -12,4 +12,4 @@ export const BONK = new PublicKey(
   "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263"
 );
 
-export const DEFAULT_SOL_AMOUNT: number = 1.0;
+export const DEFAULT_USDC_AMOUNT: number = 5.0;

@@ -11,7 +11,7 @@ import {
   PublicKey,
   Transaction,
 } from "@solana/web3.js";
-import { BONK, DEFAULT_SOL_ADDRESS, DEFAULT_SOL_AMOUNT, USDC } from "../contant";
+import { BONK, DEFAULT_ADDRESS, DEFAULT_USDC_AMOUNT, USDC } from "../contant";
 import { CreateDCAParamsV2, DCA, Network } from "@jup-ag/dca-sdk";
 
 export const GET = async (req: Request) => {
@@ -26,22 +26,22 @@ export const GET = async (req: Request) => {
 
     const payload: ActionGetResponse = {
       title: "DCA - SOL",
-      icon: new URL("https://i.postimg.cc/sXw7cxP8/20231124065326-df50bee7-c127-4acb-af58-b8616e21acd0-152.jpg", requestUrl.origin).toString(),
+      icon: new URL("https://i.postimg.cc/NfwX2L9Q/dca-blink.png", requestUrl.origin).toString(),
       description: "DCA SOL at your finger tips",
       label: "Order",
       links: {
         actions: [
           {
-            label: "DCA 5 USDC",
-            href: `${baseHref}&amount=${"10"}`,
+            label: "DCA 6 USDC",
+            href: `${baseHref}?amount={6}`,
           },
           {
             label: "DCA 15 USDC",
-            href: `${baseHref}&amount=${"25"}`,
+            href: `${baseHref}?amount={15}`,
           },
           {
             label: "DCA 50 USDC",
-            href: `${baseHref}&amount=${"50"}`,
+            href: `${baseHref}?amount={50}`,
           },
           {
             label: "DCA USDC",
@@ -133,7 +133,7 @@ export const POST = async (req: Request) => {
     const payload: ActionPostResponse = await createPostResponse({
       fields: {
         transaction,
-        message: `Send ${amount} SOL to ${toPubkey.toBase58()}`,
+        message: `DCA ${amount} SOL with ${toPubkey.toBase58()}`,
       },
     });
 
@@ -153,8 +153,8 @@ export const POST = async (req: Request) => {
 };
 
 function validatedQueryParams(requestUrl: URL) {
-  let toPubkey: PublicKey = DEFAULT_SOL_ADDRESS;
-  let amount: number = DEFAULT_SOL_AMOUNT;
+  let toPubkey: PublicKey = DEFAULT_ADDRESS;
+  let amount: number = DEFAULT_USDC_AMOUNT;
 
   try {
     if (requestUrl.searchParams.get("to")) {
@@ -166,7 +166,7 @@ function validatedQueryParams(requestUrl: URL) {
 
   try {
     if (requestUrl.searchParams.get("amount")) {
-      amount = parseFloat(requestUrl.searchParams.get("amount")!);
+      amount = parseFloat(requestUrl.searchParams.get("amount")!) * 1000000;
     }
 
     if (amount <= 0) throw "amount is too small";
