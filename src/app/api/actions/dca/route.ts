@@ -1,7 +1,3 @@
-/**
- * Solana Actions Example
- */
-
 import {
   ActionPostResponse,
   ACTIONS_CORS_HEADERS,
@@ -61,7 +57,7 @@ export const GET = async (req: Request) => {
         ],
       },
     };
-
+    // @ts-ignore
     return Response.json(payload, {
       headers: ACTIONS_CORS_HEADERS,
     });
@@ -141,6 +137,7 @@ export const POST = async (req: Request) => {
       },
     });
 
+    // @ts-ignore
     return Response.json(payload, {
       headers: ACTIONS_CORS_HEADERS,
     });

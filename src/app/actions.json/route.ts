@@ -16,6 +16,7 @@ export const GET = async () => {
     ],
   };
 
+  // @ts-ignore
   return Response.json(payload, {
     headers: ACTIONS_CORS_HEADERS,
   });
